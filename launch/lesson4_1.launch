@@ -1,0 +1,11 @@
+<launch>
+    <node name="gui" pkg="turtlesim" type="turtlesim_node"/>
+    <node name="dynamics" pkg="turtle" type="dynamics.py">
+        <param name="mass" value="10" />
+        <param name="moment_inertia" value="10" />
+        <param name="gamma" value="10" />
+    </node>
+    <node name="teleop" pkg="turtlesim" type="turtle_teleop_key">
+       <remap from="/turtle1/cmd_vel" to="/turtle1/dynamics"/>
+    </node>
+</launch>
