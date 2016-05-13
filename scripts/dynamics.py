@@ -25,11 +25,11 @@ s = rospy.Subscriber("turtle1/dynamics", Twist, callback)
 rate = rospy.Rate(frequency)
 
 def calculate_step():
-  linear_a = effort.linear.x  - state.linear.x**2*gamma
+  linear_a = effort.linear.x  - gamma*(state.linear.x**2)
   linear_a /= mass
   state.linear.x += linear_a/frequency
 
-  angular_a = effort.angular.z - state.angular.z**2*gamma
+  angular_a = effort.angular.z - gamma*(state.angular.z**2)
   angular_a /= inertia_moment
   state.angular.z += angular_a/frequency
   

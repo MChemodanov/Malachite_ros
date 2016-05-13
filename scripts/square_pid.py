@@ -20,14 +20,21 @@ def angle_diff(a1, a2):
 
 rospy.init_node("square")
 p = rospy.Publisher("turtle1/dynamics", Twist)
-  
+
+sum_error = 0  
+prev_error = 0
 def callback(msg):
   error = angle_diff(desired_heading, msg.theta)
-  rospy.logwarn("Error: %s", error)
+  speed_err = desired_speed - msg.linear_velocity
+  global sum_error, prev_error
+  sum_error += speed_err
+  delta = error - prev_error
+  prev_error = error
   msg = Twist()
-  msg.linear.x = desired_speed        
-  if abs(error) > min_error:
-      msg.angular.z = error*k_p
+
+  msg.linear.x = speed_err*k_p + sum_error*k_i + delta*k_d
+  msg.angular.z = error*k_p   
+
   p.publish(msg)
 
 s = rospy.Subscriber("turtle1/pose", Pose, callback)
@@ -36,4 +43,11 @@ r = rospy.Rate(1.0/3.0)
 
 while not rospy.is_shutdown():
     desired_heading += math.pi/3
-    r.sleep()  
+    desired_speed += 1
+    sum_error = 0
+    r.sleep() 
+    if desired_speed >= 2:
+        desired_speed = 0
+    k_p = rospy.get_param("~k_p")
+    k_i = rospy.get_param("~k_i")
+    k_d = rospy.get_param("~k_d")

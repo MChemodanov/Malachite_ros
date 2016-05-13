@@ -2,13 +2,13 @@
     <node name="gui" pkg="turtlesim" type="turtlesim_node"/>
     <node name="dynamics" pkg="turtle" type="dynamics.py">
         <param name="mass" value="1" />
-        <param name="gamma" value="10" />
+        <param name="gamma" value="1" />
         <param name="moment_inertia" value="10" />
     </node>
     <node name="program" pkg="turtle" type="square_pid.py">
-        <param name="speed" value="10" />
-        <param name="k_p" value="10" />
-        <param name="k_i" value="1" />
-        <param name="k_d" value="0.1" />
+        <param name="speed" value="1" />
+        <param name="k_p" value="0" />
+        <param name="k_i" value="0" />
+        <param name="k_d" value="0" />
     </node>
 </launch>
