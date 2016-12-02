@@ -7,7 +7,8 @@ from turtlesim.msg import Pose
 
 desired_heading = 0
 desired_speed = 1
-k_p = 10
+max_error = 0.001
+k_p = 100		
 
 def angle_diff(a1, a2):
     a = a1-a2
@@ -20,8 +21,10 @@ def callback(msg):
   error = angle_diff(desired_heading, msg.theta)
   rospy.logwarn("Error: %s", error)
   msg = Twist()
-  msg.linear.x = desired_speed        
-  msg.angular.z = error*k_p
+  if abs(error) < max_error:
+    msg.linear.x = desired_speed
+  else:        
+    msg.angular.z = error*k_p
   p.publish(msg)
 
 s = rospy.Subscriber("turtle1/pose", Pose, callback)
@@ -29,5 +32,5 @@ s = rospy.Subscriber("turtle1/pose", Pose, callback)
 r = rospy.Rate(1.0/3.0)
 
 while not rospy.is_shutdown():
-    desired_heading += math.pi/2
+    desired_heading +=	 math.pi/2
     r.sleep()  
