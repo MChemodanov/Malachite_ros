@@ -3,7 +3,7 @@
     <node name="dynamics" pkg="turtle" type="dynamics.py">
         <param name="mass" value="0.1" />
         <param name="moment_inertia" value="0.1	" />
-        <param name="gamma" value="0.0001" />
+        <param name="gamma" value="0.1" />
     </node>
     <node name="teleop" pkg="turtlesim" type="turtle_teleop_key">
        <remap from="/turtle1/cmd_vel" to="/turtle1/dynamics"/>
