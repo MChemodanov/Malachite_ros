@@ -8,7 +8,8 @@ from turtlesim.msg import Pose
 rospy.init_node("square")
 
 desired_heading = 0
-desired_speed = rospy.get_param("~speed")
+desired_speed = 0
+speed_step = rospy.get_param("~speed")
 min_error = 0.001
 k_p = rospy.get_param("~k_p")
 k_i = rospy.get_param("~k_i")
@@ -39,14 +40,14 @@ def callback(msg):
 
 s = rospy.Subscriber("turtle1/pose", Pose, callback)
 
-r = rospy.Rate(1.0/3.0)
+r = rospy.Rate(1.0/10.0)
 
 while not rospy.is_shutdown():
-    desired_heading += math.pi/3
-    desired_speed += 1
+    desired_heading += math.pi/2
+    desired_speed += speed_step
     sum_error = 0
     r.sleep() 
-    if desired_speed >= 2:
+    if desired_speed >= 5*speed_step:
         desired_speed = 0
     k_p = rospy.get_param("~k_p")
     k_i = rospy.get_param("~k_i")
