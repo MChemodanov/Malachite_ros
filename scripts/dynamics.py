@@ -6,9 +6,7 @@ from geometry_msgs.msg import Twist
 
 rospy.init_node("dynamics")
 
-inertia_moment = rospy.get_param("~moment_inertia")
-mass = rospy.get_param("~mass")
-gamma = rospy.get_param("~gamma")
+
 
 frequency = 100
 
@@ -26,6 +24,9 @@ s = rospy.Subscriber("turtle1/dynamics", Twist, callback)
 rate = rospy.Rate(frequency)	
 
 def calculate_step():
+  inertia_moment = rospy.get_param("~moment_inertia")
+  mass = rospy.get_param("~mass")
+  gamma = rospy.get_param("~gamma")
   global effort
   g = math.copysign(gamma*(state.linear.x**2), state.linear.x)
   linear_a = effort.linear.x  - g

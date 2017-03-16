@@ -11,9 +11,7 @@ desired_heading = 0
 desired_speed = 0
 speed_step = rospy.get_param("~speed")
 min_error = 0.001
-k_p = rospy.get_param("~k_p")
-k_i = rospy.get_param("~k_i")
-k_d = rospy.get_param("~k_d")
+
 
 def angle_diff(a1, a2):
     a = a1-a2
@@ -25,6 +23,9 @@ p = rospy.Publisher("turtle1/dynamics", Twist)
 sum_error = 0  
 prev_error = 0
 def callback(msg):
+  k_p = rospy.get_param("~k_p")
+  k_i = rospy.get_param("~k_i")
+  k_d = rospy.get_param("~k_d")
   error = angle_diff(desired_heading, msg.theta)
   speed_err = desired_speed - msg.linear_velocity
   global sum_error, prev_error
