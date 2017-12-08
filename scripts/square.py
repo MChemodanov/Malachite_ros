@@ -28,6 +28,6 @@ p = rospy.Publisher("turtle1/cmd_vel", Twist)
 angle = math.pi/2	
 delta = math.pi/40
 while not rospy.is_shutdown():
-  straight(p,0.5, angle)
-  angle -= delta
-  # turn(p,2*math.pi/3)
+  straight(p,0.5, 0)
+  # angle -= delta
+  turn(p, math.pi/2)
